@@ -138,7 +138,9 @@ Hello, JCWD3202!
 
                         `/app/api/register`
 
-        - Write Code:
+        - Create New File Inside `/app/api/register/` with Name `route.ts`
+
+        - Write This Code Inside `app/api/register/route.ts`:
 
                         import { NextRequest, NextResponse } from 'next/server';
                         import { PrismaClient } from '@prisma/client';
