@@ -82,3 +82,87 @@ Hello, JCWD3202!
                         </button>
                     </Form>
                 </Formik>
+
+5.  How to Create `Route API` in Next.js >14 using PostgreeSql as Database with Prisma ORM? - Login into Supabase > Create New Organization > Create New Project
+
+        - Install Prisma ORM:
+
+                        1. npm i prisma @prisma/client bcrypt
+
+                        2. npx prisma init
+
+        - Setup Prisma ORM:
+
+                        1. Create Model on File `schema.prisma`:
+
+                                // This is your Prisma schema file,
+                                // learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+                                // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+                                // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+                                generator client {
+                                    provider = "prisma-client-js"
+                                }
+
+                                datasource db {
+                                    provider = "postgresql"
+                                    url      = env("DATABASE_URL")
+                                    directUrl = env("DIRECT_URL")
+                                }
+
+                                model User{
+                                    id        String      @id @default(uuid())
+                                    username  String
+                                    password  String
+                                    email     String
+                                    role      RoleUser    @default(STAFF)
+                                }
+
+                                enum RoleUser{
+                                    STAFF
+                                    MANAGER
+                                }
+
+                        2. Add `DATABASE_URL` and `DIRECT_URL` from Supabase to `.env` File
+
+                        3. Migrate:
+
+                                npx prisma migrate dev --name add_model_user
+
+        - Create Directory `api` Inside `app` Directory:
+
+                        `/app/api`
+
+        - Create New Directory Inside `api` Directory:
+
+                        `/app/api/register`
+
+        - Write Code:
+
+                        import { NextRequest, NextResponse } from 'next/server';
+                        import { PrismaClient } from '@prisma/client';
+                        const prisma = new PrismaClient();
+
+                        export async function POST(req: NextRequest) {
+                            try{
+                                const {username, password, email, role} = await req.json();
+
+                                const createdUser = await prisma.user.create({
+                                    data: {
+                                        username,
+                                        password,
+                                        email,
+                                        role
+                                    }
+                                })
+
+                                return NextResponse.json(createdUser, { status: 201, statusText: 'Register user success' });
+                            }catch(error){
+                                if (error instanceof Error) {
+                                    return NextResponse.json({ error: error.message }, { status: 500 });
+                                } else {
+                                    return NextResponse.json({ error: 'An unknown error occurred' }, { status: 500 });
+                                }
+                            }
+                        }
