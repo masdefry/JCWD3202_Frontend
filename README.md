@@ -18,11 +18,23 @@ Hello, JCWD3202!
 
                 - What import alias would you like configured? @/*
 
-2.  How to Run NextJS Project?
+2.  Install Dependencies
+
+                npm i axios react-icons
+
+                npm i formik yup @types/yup
+
+                npm i -D daisyui
+
+3.  How to Setup DaisyUI?
+
+                See Documentation Here: https://daisyui.com/docs/install/
+
+4.  How to Run NextJS Project?
 
                 npm run dev
 
-3.  Using JSON-SERVER as Fake API
+5.  Using JSON-SERVER as Fake API
 
         0. Install JSON-SERVER (Install on Global/System Computer)
 
@@ -34,11 +46,7 @@ Hello, JCWD3202!
 
                 json-server --watch db.json --port 5000
 
-4.  How to Create Form Validation using Formik & Yup?
-
-        - Install Dependency
-
-                npm i formik yup
+6.  How to Create Form Validation using Formik & Yup?
 
         - Create Validation Schema
 
@@ -83,7 +91,7 @@ Hello, JCWD3202!
                     </Form>
                 </Formik>
 
-5.  How to Create `Route API` in Next.js >14 using PostgreeSql as Database with Prisma ORM? - Login into Supabase > Create New Organization > Create New Project
+7.  How to Create `Route API` in Next.js >14 using PostgreeSql as Database with Prisma ORM? - Login into Supabase > Create New Organization > Create New Project
 
         - Install Prisma ORM:
 

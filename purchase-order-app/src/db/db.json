@@ -1,0 +1,28 @@
+{
+    "films": [
+        {
+            "id": 1, 
+            "title": "Agak Laen",
+            "releaseYear": 2022,
+            "director": "Joko Anwar",
+            "genre": "Horror",
+            "imageUrl": "https://statik.tempo.co/data/2023/12/13/id_1262844/1262844_720.jpg"
+        },
+        {
+            "id": 2, 
+            "title": "Ipar Adalah Maut",
+            "releaseYear": 2023,
+            "director": "Hanung Bramantyo",
+            "genre": "Drama",
+            "imageUrl": "https://cdn-1.timesmedia.co.id/images/2024/06/20/Ipar-Adalah-Maut.jpg"
+        },
+        {
+            "id": 3,
+            "title": "Keluarga Cemara",
+            "releaseYear": 2019,
+            "director": "Yandy Laurens",
+            "genre": "Drama",
+            "imageUrl": "https://cdn-2.tstatic.net/tribunnews/foto/bank/images/keluarga-cemara.jpg"
+        }
+    ]
+}
