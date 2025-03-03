@@ -13,9 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body
-        className={`font-poppins antialiased`}
-      >
+      <body>
         {children}
       </body>
     </html>

@@ -1,19 +1,13 @@
 @import 'tailwindcss';
 @plugin "daisyui";
 
-@theme{
-  --color-pos-primary: #FFCA40;
-  --color-pos-secondary: #C8161D;
+@theme {
+  --color-pos-primary: #ffca40;
+  --color-pos-secondary: #c8161d;
   --color-pos-black: #000000;
   --color-pos-gray: #808080;
 }
 
 @layer base {
-  :root {
-    --font-poppins: 'Poppins', sans-serif;
-  }
-}
 
-.font-poppins {
-  font-family: var(--font-poppins);
 }
