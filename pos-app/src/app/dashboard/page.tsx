@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { BsPlusCircleFill } from 'react-icons/bs';
 import { BiSolidMinusCircle } from 'react-icons/bi';
 import { ToastContainer, toast } from 'react-toastify';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { createOrderListSchema } from '@/features/dashboard/schemas/createOrderListSchema';
 
 export default function DashboarPage() {
   const [products, setProducts] = useState([]);
@@ -13,6 +15,22 @@ export default function DashboarPage() {
     try {
       const response = await axios.get('http://localhost:3000/api/products');
       setProducts(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlePostOrderList = async ({ customerName, tableNumber }: any) => {
+    try {
+      await axios.post('http://localhost:3000/api/order-list', {
+        customerName,
+        tableNumber,
+        itemList: orderList,
+        total: orderList.reduce(
+          (acc, curr) => acc + (curr.price * curr.quantity),
+          0
+        ),
+      });
     } catch (error) {
       console.log(error);
     }
@@ -92,28 +110,66 @@ export default function DashboarPage() {
             <div className='border-t'></div>
             <div className='flex justify-between items-center'>
               <h3 className='font-bold text-md'>Total</h3>
-              <h3 className='text-md font-bold text-pos-primary'>Rp. {orderList.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0).toLocaleString('id-ID')}</h3>
+              <h3 className='text-md font-bold text-pos-primary'>
+                Rp.{' '}
+                {orderList
+                  .reduce((acc, curr) => acc + curr.price * curr.quantity, 0)
+                  .toLocaleString('id-ID')}
+              </h3>
             </div>
-            <div className='py-5'>
-              <h3 className='font-bold text-lg'>Customer Info</h3>
-              <fieldset className='fieldset'>
-                <legend className='fieldset-legend'>Customer name</legend>
-                <input
-                  type='text'
-                  className='input w-full'
-                  placeholder='Type here'
-                />
-              </fieldset>
-              <fieldset className='fieldset'>
-                <legend className='fieldset-legend'>Table number</legend>
-                <input
-                  type='text'
-                  className='input w-full'
-                  placeholder='Type here'
-                />
-              </fieldset>
-            </div>
-            <button className='btn bg-pos-primary w-full rounded-lg'>Submit Order</button>
+            <Formik
+              initialValues={{
+                customerName: '',
+                tableNumber: '',
+              }}
+              validationSchema={createOrderListSchema}
+              onSubmit={(values: any) => {
+                handlePostOrderList({
+                  customerName: values.customerName,
+                  tableNumber: values.tableNumber,
+                });
+              }}
+            >
+              <Form>
+                <div className='py-5'>
+                  <h3 className='font-bold text-lg'>Customer Info</h3>
+                  <fieldset className='fieldset'>
+                    <legend className='fieldset-legend'>Customer name</legend>
+                    <Field
+                      name='customerName'
+                      type='text'
+                      className='input w-full'
+                      placeholder='Type here'
+                    />
+                    <ErrorMessage
+                      name='customerName'
+                      component={'div'}
+                      className='text-red-500'
+                    />
+                  </fieldset>
+                  <fieldset className='fieldset'>
+                    <legend className='fieldset-legend'>Table number</legend>
+                    <Field
+                      name='tableNumber'
+                      type='text'
+                      className='input w-full'
+                      placeholder='Type here'
+                    />
+                    <ErrorMessage
+                      name='tableNumber'
+                      component={'div'}
+                      className='text-red-500'
+                    />
+                  </fieldset>
+                </div>
+                <button
+                  type='submit'
+                  className='btn bg-pos-primary w-full rounded-lg'
+                >
+                  Submit Order
+                </button>
+              </Form>
+            </Formik>
             <div className='modal-action'>
               <form method='dialog'>
                 {/* if there is a button in form, it will close the modal */}
@@ -148,8 +204,6 @@ export default function DashboarPage() {
   );
 }
 
-
-
 // 1. Buatlah table baru di backendless untuk menampung data `order list`
 // 2. Buatlah end point API untuk submiting data `order list` ke table yang sudah dibuat
-// 3. Buatlah fungsi `handlePostOrder` untuk mengirim data `order list` dari frontend ke API yang sudah dibuat 
+// 3. Buatlah fungsi `handlePostOrder` untuk mengirim data `order list` dari frontend ke API yang sudah dibuat
